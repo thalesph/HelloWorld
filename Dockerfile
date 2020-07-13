@@ -1,10 +1,12 @@
 FROM php:7-apache
+MAINTAINER thales@htiweb.inf.br
 
-WORKDIR /usr/src/app
-COPY package.json .
-RUN npm install
+COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY start-apache /usr/local/bin
+RUN a2enmod rewrite
 
-EXPOSE 8080
-CMD [ "npm", "start" ]
+# Copy application source
+COPY index.php /var/www/
+RUN chown -R www-data:www-data /var/www
 
-COPY . .
+CMD ["start-apache"]
