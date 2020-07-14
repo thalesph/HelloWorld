@@ -1,12 +1,11 @@
-FROM php:7-apache
+FROM php:7.2-apache
 MAINTAINER thales@htiweb.inf.br
 
-COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY start-apache /usr/local/bin
 RUN a2enmod rewrite
 
-# Copy application source
-COPY index.php /var/www/
-RUN chown -R www-data:www-data /var/www
+ENV ServerName "localhost.test" 
 
-CMD ["start-apache"]
+# Copy application source
+COPY index.php /var/www/html/
+COPY index.html /var/www/html/
+RUN chown -R www-data:www-data /var/www/html/
